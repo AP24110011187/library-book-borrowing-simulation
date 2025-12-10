@@ -1,0 +1,62 @@
+#include <stdio.h>
+#include <string.h>
+
+int main() {
+    int n, i;
+    char bookName[50][50];
+    int available[50];
+    int issuedCount = 0;
+
+    printf("Enter number of books in library: ");
+    scanf("%d", &n);
+
+    // Store book names and availability
+    for(i = 0; i < n; i++) {
+        printf("Book %d name: ", i + 1);
+        scanf("%s", bookName[i]);
+
+        printf("Enter number of copies: ");
+        scanf("%d", &available[i]);
+    }
+
+    int borrow;
+    printf("\nHow many students want to borrow books? ");
+    scanf("%d", &borrow);
+
+    for(i = 0; i < borrow; i++) {
+        char wanted[50];
+        printf("\nStudent %d wants book: ", i + 1);
+        scanf("%s", wanted);
+
+        int found = 0;
+
+        // Search if book exists
+        for(int j = 0; j < n; j++) {
+            if(strcmp(bookName[j], wanted) == 0) {
+                found = 1;
+
+                if(available[j] > 0) {
+                    printf("Book issued successfully!\n");
+                    available[j]--;
+                    issuedCount++;
+                } else {
+                    printf("Sorry, no copies left.\n");
+                }
+                break;
+            }
+        }
+
+        if(!found) {
+            printf("Book not found in library.\n");
+        }
+    }
+
+    // Summary report
+    printf("\n--------- LIBRARY REPORT ---------\n");
+    for(i = 0; i < n; i++) {
+        printf("%-15s Remaining copies: %d\n", bookName[i], available[i]);
+    }
+    printf("Total books issued today: %d\n", issuedCount);
+
+    return 0;
+}
